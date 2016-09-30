@@ -1,0 +1,44 @@
+numFiles = 3;
+fileName = cell(numFiles,1);
+fileName{1} = 'data/test1.txt';
+fileName{2} = 'data/test1.txt';
+fileName{3} = 'data/test1.txt';
+
+extensorLength = [];
+extensorMeasuredForce = [];
+extensorDesiredForce = [];
+extensorGammaStatic = [];
+extensorGammaDynamic = [];
+extensorCorticalDrive = [];
+
+flexorLength = [];
+flexorMeasuredForce = [];
+flexorDesiredForce = [];
+flexorGammaStatic = [];
+flexorGammaDynamic = [];
+flexorCorticalDrive = [];
+
+newTrial = [];
+time = [];
+%Check column number from the header
+%%
+for fileIndex = 1 : numFiles
+    disp('Concatinating data 1')
+data = dlmread(fileName{i},',',1,0);
+time = [time;data(:,1)];
+extensorLength = [extensorLength; data(:,2)];
+extensorDesiredForce = [extensorDesiredForce; data(:,11)];
+extensorMeasuredForce = [extensorMeasuredForce; data(:,4)];
+extensorGammaStatic = [extensorGammaStatic; data(:,13)];
+extensorGammaDynamic = [extensorGammaDynamic; data(:,14)];
+extensorCorticalDrive = [extensorCorticalDrive;data(:,17)];
+
+flexorLength = [flexorLength; data(:,3)];
+flexorDesiredForce = [flexorDesiredForce; data(:,12)];
+flexorMeasuredForce = [flexorMeasuredForce; data(:,5)];
+flexorGammaStatic = [flexorGammaStatic; data(:,15)];
+flexorGammaDynamic = [flexorGammaDynamic; data(:,16)];
+flexorCorticalDrive = [flexorCorticalDrive;data(:,18)];
+newTrial = [newTrial;data(:,19)];
+end
+
