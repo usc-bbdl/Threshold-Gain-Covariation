@@ -1,8 +1,8 @@
-numFiles = 3;
+numFiles = 1;
 fileName = cell(numFiles,1);
-fileName{1} = 'dataTemp/test1.txt';
-fileName{2} = 'dataTemp/test1.txt';
-fileName{3} = 'dataTemp/test1.txt';
+fileName{1} = 'data/realTimeData2016_09_20_14_29_48.txt';
+fileName{2} = 'data/test1.txt';
+fileName{3} = 'data/test1.txt';
 
 extensorLength = [];
 extensorMeasuredForce = [];
@@ -58,4 +58,4 @@ data.flexorGammaDynamic = flexorGammaDynamic;
 data.flexorCorticalDrive = flexorCorticalDrive;
 data.newTrial = newTrial;
 data.time = time;
-save dataAllFiles data
+save data/dataAllFiles data
