@@ -29,15 +29,15 @@ for fileIndex = 1 : numFiles
     extensorLength = [extensorLength; dataTemp(:,2)];
     extensorDesiredForce = [extensorDesiredForce; dataTemp(:,11)];
     extensorMeasuredForce = [extensorMeasuredForce; dataTemp(:,4)];
-    extensorGammaStatic = [extensorGammaStatic; dataTemp(:,13)];
-    extensorGammaDynamic = [extensorGammaDynamic; dataTemp(:,14)];
+    extensorGammaStatic = [extensorGammaStatic; dataTemp(:,19)];
+    extensorGammaDynamic = [extensorGammaDynamic; dataTemp(:,20)];
     extensorCorticalDrive = [extensorCorticalDrive;dataTemp(:,17)];
 
     flexorLength = [flexorLength; dataTemp(:,3)];
     flexorDesiredForce = [flexorDesiredForce; dataTemp(:,12)];
     flexorMeasuredForce = [flexorMeasuredForce; dataTemp(:,5)];
-    flexorGammaStatic = [flexorGammaStatic; dataTemp(:,15)];
-    flexorGammaDynamic = [flexorGammaDynamic; dataTemp(:,16)];
+    flexorGammaStatic = [flexorGammaStatic; dataTemp(:,21)];
+    flexorGammaDynamic = [flexorGammaDynamic; dataTemp(:,22)];
     flexorCorticalDrive = [flexorCorticalDrive;dataTemp(:,18)];
     newTrial = [newTrial;dataTemp(:,19)];
 end
