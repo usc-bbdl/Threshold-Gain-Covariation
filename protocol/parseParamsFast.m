@@ -3,7 +3,7 @@ gammaStatic = 0:100:200;
 gammaDynamic = 0:100:200;
 velocities = [10 100 250];
 corticalDrive = [0 900 1250];
-reps = 2;
+reps = 3;
 trialLength = 3;
 % initPos = -24;
 % finalPos = 18;
@@ -40,3 +40,4 @@ if ~(size(outputMatrixPermut((i-1)*trialsPerFile+1:end,:),1)==0)
     dlmwrite(fileName,size(outputMatrixPermut((i-1)*trialsPerFile+1:end,:),1),'delimiter',',','newline', 'pc');
     dlmwrite(fileName,outputMatrixPermut((i-1)*trialsPerFile+1:end,:),'delimiter',',','newline', 'pc','-append');
 end
+
