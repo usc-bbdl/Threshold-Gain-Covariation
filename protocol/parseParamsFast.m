@@ -1,13 +1,13 @@
 numFiles = 1;
 gammaStatic = 0:100:200;
 gammaDynamic = 0:100:200;
-velocities = [10 110 210];
+velocities = [10 40 70 100];
 corticalDrive = [0];
 reps = 5;
 trialLength = 3;
 % initPos = -24;
 % finalPos = 18;
-position = [-75,-37.5,0,37.5,75];
+position = [-75,-25,25,75];
 outputMatrix = zeros(length(gammaStatic)*length(gammaDynamic)*length(velocities)*length(corticalDrive),11);
 perturbation = 10;%0.04*180/pi;
 m = 0;
