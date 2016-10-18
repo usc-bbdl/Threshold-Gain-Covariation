@@ -8,9 +8,11 @@ load data/test1
 %%
 perturbationAmp = 10; %p-p amplitude of perturbations
 holdTime = 3 / 2;%hold time is trial length/2
-gammaRange = [0 100 200]';
-velocityRange = [10 40 70 100]';
-positionRange = [75,25,-25,-75]';
+%gammaRange = [0 100 200]'; protocol_reader.m will take care of it
+%velocityRange = [10 40 70 100]'; protocol_reader.m will take care of it
+%positionRange = [75,25,-25,-75]'; protocol_reader.m will take care of it
+[ gammaRange,positionRange,velocityRange,number_of_trials ] = protocol_reader( data(:,2) )
+
 expProtChan = 2;
 forceChannel = 7;
 lengthChannel = 3;
@@ -56,7 +58,7 @@ for gammaDynamicIndex = 1 : length(gammaRange)                              % Ga
 end
 close(h)
 %% Visualization
-%display('everything is saved in the file named as reflexAmplitude')
+display('everything is saved in the file named as reflexAmplitude')
 
-results_visualization(reflexAmplitude, 'gamma_d',2,'vel',2,positionRange,velocityRange) % please use help results_visualization for full details
+%results_visualization(reflexAmplitude, 'gamma_d',1,'vel',1,positionRange,velocityRange) % please use help results_visualization for full details
 % results_visualization is a function to visualize the results
