@@ -57,5 +57,8 @@ end
 close(h)
 %% Visualization
 %display('everything is saved in the file named as reflexAmplitude')
-results_visualization(reflexAmplitude, 'gamma_d',2,'vel',2,positionRange,velocityRange) % please use help results_visualization for full details
-% results_visualization is a function to visualize the results. 
+results_visualization(reflexAmplitude, 'gamma_d',2,'vel',2,positionRange,velocityRange)
+% results_visualization is a function to visualize the results. Example:
+%results_visualization(reflexAmplitude, 'gamma_d',2,'vel',2,positionRange,velocityRange)
+%will show the resulsts for the gamma dynamic as a function of the velocity while the gamma static and the position both are in their second configurations.
+%options for
