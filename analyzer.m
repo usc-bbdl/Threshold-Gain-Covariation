@@ -58,6 +58,5 @@ close(h)
 %% Visualization
 %display('everything is saved in the file named as reflexAmplitude')
 
-
 results_visualization(reflexAmplitude, 'gamma_d',2,'vel',2,positionRange,velocityRange) % please use help results_visualization for full details
 % results_visualization is a function to visualize the results
