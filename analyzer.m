@@ -79,9 +79,9 @@ close(h)
 close all
 figure
 subplot(2,1,1)
-results_visualization(muscleLength,'gamma_d',1,'pos',4,positionRange,velocityRange) % please use help results_visualization for full details
+results_visualization(muscleLength,'gamma_d',3,'vel',5,positionRange,velocityRange) % please use help results_visualization for full details
 subplot(2,1,2)
-results_visualization(reflexAmplitude,'gamma_d',1,'pos',4,positionRange,velocityRange) % please use help results_visualization for full details
+results_visualization(reflexAmplitude,'gamma_d',3,'vel',5,positionRange,velocityRange) % please use help results_visualization for full details
 % results_visualization is a function to visualize the results
 %%
 %test plot responses at some experimental condition
@@ -89,7 +89,7 @@ figure
 dataPlot.expProt = data(:,expProtChan);
 dataPlot.length = data(:,lengthChannel);
 dataPlot.force = data(:,forceChannel);
-experimentCondition.gammaD = 0;
+experimentCondition.gammaD = 200;
 experimentCondition.gammaS = 0;
 experimentCondition.pos = 25;
 experimentCondition.vel = 130;

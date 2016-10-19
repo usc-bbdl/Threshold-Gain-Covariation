@@ -1,13 +1,14 @@
-numFiles = 40;
-gammaStatic = 0:25:200;
-gammaDynamic = 0:25:200;
-velocities = 10:10:100;
+numFiles = 49;
+gammaStatic = floor(linspace(0,200,10));
+gammaDynamic = floor(linspace(0,200,10));
+velocities = floor(linspace(10,100,10));
+position = floor(linspace(-75,75,10));
 corticalDrive = [0];
 reps = 10;
 trialLength = 4;
 % initPos = -24;
 % finalPos = 18;
-position = [-50:10:50];
+
 outputMatrix = zeros(length(gammaStatic)*length(gammaDynamic)*length(velocities)*length(corticalDrive),11);
 perturbation = 10;%0.04*180/pi;
 m = 0;
@@ -30,13 +31,13 @@ outputMatrixPermut = outputMatrix(p,:);
 numRows = size(outputMatrix,1);
 trialsPerFile = floor(numRows/numFiles);
 for i = 1 :numFiles
-    fileName = strcat(['protocolFiles/servoPerturb',num2str(i),'.txt']);
+    fileName = strcat(['protocolFiles/finalProtocol',num2str(i),'.txt']);
     dlmwrite(fileName,trialsPerFile,'delimiter',',','newline', 'pc');
     dlmwrite(fileName,outputMatrixPermut((i-1)*trialsPerFile+1:i*trialsPerFile,:),'delimiter',',','newline', 'pc','-append');
 end
 i = i + 1;
 if ~(size(outputMatrixPermut((i-1)*trialsPerFile+1:end,:),1)==0)
-    fileName = strcat(['protocolFiles/servoPerturb',num2str(i),'.txt']);
+    fileName = strcat(['protocolFiles/finalProtocol',num2str(i),'.txt']);
     dlmwrite(fileName,size(outputMatrixPermut((i-1)*trialsPerFile+1:end,:),1),'delimiter',',','newline', 'pc');
     dlmwrite(fileName,outputMatrixPermut((i-1)*trialsPerFile+1:end,:),'delimiter',',','newline', 'pc','-append');
 end
