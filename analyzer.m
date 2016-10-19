@@ -89,8 +89,8 @@ figure
 dataPlot.expProt = data(:,expProtChan);
 dataPlot.length = data(:,lengthChannel);
 dataPlot.force = data(:,forceChannel);
-experimentCondition.gammaD = 200;
+experimentCondition.gammaD = 0;
 experimentCondition.gammaS = 0;
 experimentCondition.pos = 25;
-experimentCondition.vel = 130;
+experimentCondition.vel = 10;
 responsePlotter(dataPlot,experimentCondition,muscleChoice);

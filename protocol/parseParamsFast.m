@@ -5,7 +5,7 @@ velocities = floor(linspace(10,100,10));
 position = floor(linspace(-75,75,10));
 corticalDrive = [0];
 reps = 10;
-trialLength = 4;
+trialLength = 2;
 % initPos = -24;
 % finalPos = 18;
 
