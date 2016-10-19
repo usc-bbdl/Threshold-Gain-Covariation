@@ -30,15 +30,22 @@ p = 1:size(outputMatrix,1);%randperm(size(outputMatrix,1));
 outputMatrixPermut = outputMatrix(p,:);
 numRows = size(outputMatrix,1);
 trialsPerFile = floor(numRows/numFiles);
+header = 'GammDynamic1,GammaStatic1,GammDynamic2,GammaStatic2,CortexDrive1,CortexDrive2,initPos,finalPos,velocity,trialLength,reps\n';
 for i = 1 :numFiles
     fileName = strcat(['protocolFiles/finalProtocol',num2str(i),'.txt']);
-    dlmwrite(fileName,trialsPerFile,'delimiter',',','newline', 'pc');
+    fid = fopen(fileName,'wt');
+    fprintf(fid, header);
+    fclose(fid);
+    dlmwrite(fileName,trialsPerFile,'delimiter',',','newline', 'pc','-append');
     dlmwrite(fileName,outputMatrixPermut((i-1)*trialsPerFile+1:i*trialsPerFile,:),'delimiter',',','newline', 'pc','-append');
 end
 i = i + 1;
 if ~(size(outputMatrixPermut((i-1)*trialsPerFile+1:end,:),1)==0)
     fileName = strcat(['protocolFiles/finalProtocol',num2str(i),'.txt']);
-    dlmwrite(fileName,size(outputMatrixPermut((i-1)*trialsPerFile+1:end,:),1),'delimiter',',','newline', 'pc');
+    fid = fopen(fileName,'wt');
+    fprintf(fid, header);
+    fclose(fid);
+    dlmwrite(fileName,size(outputMatrixPermut((i-1)*trialsPerFile+1:end,:),1),'delimiter',',','newline', 'pc','-append');
     dlmwrite(fileName,outputMatrixPermut((i-1)*trialsPerFile+1:end,:),'delimiter',',','newline', 'pc','-append');
 end
 
