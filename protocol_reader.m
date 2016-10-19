@@ -27,6 +27,9 @@ pos_all=protocols_allruns(8,:);
 pos_r=sort(unique(pos_all)); %unique_and_sorted
 vel_all=protocols_allruns(9,:);
 vel_r=sort(unique(vel_all)); %unique_and_sorted
+gamma_d_1_r = gamma_d_1_r(:);
+pos_r = pos_r(:);
+vel_r = vel_r(:);
 end
 
 

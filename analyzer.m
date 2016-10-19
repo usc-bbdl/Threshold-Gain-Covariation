@@ -1,15 +1,16 @@
 % The goal of this project is to see how position threshold and velocity threshold change as a function of gamma (both dynamic and static)
 clear all
 clc
-load data/test6
+load data/fastSweep
 %%
+[ gammaRange,positionRange,velocityRange,~ ] = protocol_reader(data(:,2));
 perturbationAmp = 10; %p-p amplitude of perturbations
 holdTime = 3 / 2;%hold time is trial length/2
-gammaDynamicRange = [0 200]';
-gammaStaticRange = [0]';
-velocityRange = [20 100]';
-positionRange = [-30,0,30]';
-muscleChoice = 2;
+gammaDynamicRange = gammaRange;
+gammaStaticRange = gammaRange;
+%velocityRange = [20 100]';
+%positionRange = [-30,0,30]';
+muscleChoice = 1;
 expProtChan = 2;
 if muscleChoice == 1
     lengthChannel = 3;
@@ -78,7 +79,18 @@ close(h)
 close all
 figure
 subplot(2,1,1)
-results_visualization(muscleLength,'gamma_d',1,'pos',2,positionRange,velocityRange) % please use help results_visualization for full details
+results_visualization(muscleLength,'gamma_d',1,'pos',4,positionRange,velocityRange) % please use help results_visualization for full details
 subplot(2,1,2)
-results_visualization(reflexAmplitude,'gamma_d',1,'pos',2,positionRange,velocityRange) % please use help results_visualization for full details
+results_visualization(reflexAmplitude,'gamma_d',1,'pos',4,positionRange,velocityRange) % please use help results_visualization for full details
 % results_visualization is a function to visualize the results
+%%
+%test plot responses at some experimental condition
+figure
+dataPlot.expProt = data(:,expProtChan);
+dataPlot.length = data(:,lengthChannel);
+dataPlot.force = data(:,forceChannel);
+experimentCondition.gammaD = 0;
+experimentCondition.gammaS = 0;
+experimentCondition.pos = 25;
+experimentCondition.vel = 130;
+responsePlotter(dataPlot,experimentCondition,muscleChoice);
