@@ -2,7 +2,7 @@
 clear all
 clc
 for iii=1:25
-load (['data/sweep',num2str(i)]);
+load (['data/sweep',num2str(iii)]);
 %%
 [ gammaDRange,gammaSRange,positionRange,velocityRange,~ ] = protocol_reader(data(:,2));
 perturbationAmp = 10; %p-p amplitude of perturbations
