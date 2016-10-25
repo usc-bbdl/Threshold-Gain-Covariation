@@ -17,7 +17,7 @@ function [ ] = results_visualization( reflexAmplitude, which_gamma,other_gamma,w
 %   either 'vel' or 'pos' (as a string) which stand for position
 %   and velocity respectedly.
 %
-%   other_gamma: The value of the other variable (position or velocity). It should be an integer
+%   other_variable: The value of the other variable (position or velocity). It should be an integer
 %   corresponding to the column of the variable vector.
 %
 %Example:

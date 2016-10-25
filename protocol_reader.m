@@ -1,4 +1,4 @@
-function [ gamma_d_1_r,pos_r,vel_r,number_of_runs ] = protocol_reader( protocol_channel )
+function [ gamma_d_1_r,gamma_s_1_r,pos_r,vel_r,number_of_runs ] = protocol_reader( protocol_channel )
 %This function reads the protocol channel sent by C and give us the values
 start_index=find(protocol_channel==-1000);
 number_of_runs=length(start_index);
