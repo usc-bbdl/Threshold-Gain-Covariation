@@ -1,7 +1,7 @@
 % The goal of this project is to see how position threshold and velocity threshold change as a function of gamma (both dynamic and static)
 clear all
 clc
-load data/fastSweep
+load data/sweep1
 %%
 [ gammaRange,positionRange,velocityRange,~ ] = protocol_reader(data(:,2));
 perturbationAmp = 10; %p-p amplitude of perturbations
@@ -91,6 +91,6 @@ dataPlot.length = data(:,lengthChannel);
 dataPlot.force = data(:,forceChannel);
 experimentCondition.gammaD = 0;
 experimentCondition.gammaS = 0;
-experimentCondition.pos = 25;
-experimentCondition.vel = 10;
+experimentCondition.pos = 41;
+experimentCondition.vel = 100;
 responsePlotter(dataPlot,experimentCondition,muscleChoice);

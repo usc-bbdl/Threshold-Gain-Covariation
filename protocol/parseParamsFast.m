@@ -1,6 +1,6 @@
-numFiles = 49;
-gammaStatic = floor(linspace(0,200,10));
-gammaDynamic = floor(linspace(0,200,10));
+numFiles = 16;
+gammaStatic = floor(linspace(25,175,4));
+gammaDynamic = floor(linspace(25,175,4));
 velocities = floor(linspace(10,100,10));
 position = floor(linspace(-75,75,10));
 corticalDrive = [0];
@@ -31,8 +31,10 @@ outputMatrixPermut = outputMatrix(p,:);
 numRows = size(outputMatrix,1);
 trialsPerFile = floor(numRows/numFiles);
 header = 'GammDynamic1,GammaStatic1,GammDynamic2,GammaStatic2,CortexDrive1,CortexDrive2,initPos,finalPos,velocity,trialLength,reps\n';
-for i = 1 :numFiles
-    fileName = strcat(['protocolFiles/finalProtocol',num2str(i),'.txt']);
+startFileIndex = 26;
+for i = 1 :  numFiles
+    fileIndex = startFileIndex + i - 1;
+    fileName = strcat(['protocolFiles/finalProtocol',num2str(fileIndex),'.txt']);
     fid = fopen(fileName,'wt');
     fprintf(fid, header);
     fclose(fid);
@@ -40,8 +42,9 @@ for i = 1 :numFiles
     dlmwrite(fileName,outputMatrixPermut((i-1)*trialsPerFile+1:i*trialsPerFile,:),'delimiter',',','newline', 'pc','-append');
 end
 i = i + 1;
+fileIndex = fileIndex + 1;
 if ~(size(outputMatrixPermut((i-1)*trialsPerFile+1:end,:),1)==0)
-    fileName = strcat(['protocolFiles/finalProtocol',num2str(i),'.txt']);
+    fileName = strcat(['protocolFiles/finalProtocol',num2str(fileIndex),'.txt']);
     fid = fopen(fileName,'wt');
     fprintf(fid, header);
     fclose(fid);
