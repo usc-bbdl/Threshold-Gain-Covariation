@@ -99,8 +99,8 @@ Xc=1;Tc=1;Vc=1;
 %subplot(5,5,protocolNumber)
 XV_RA_forplot=squeeze(reflexAmplitude);%%Reflex amplitude matrix as a function of X and V for plotting
 surf(positionRange,velocityRange,XV_RA_forplot)
-xlabel('Pos.')
-ylabel('Vel.')
+xlabel('Vel.')
+ylabel('Pos.')
 zlabel('Ref. Amp.')
 title(['G_d= ',num2str(gammaDynamicRange),'  G_s= ',num2str(gammaStaticRange)])
 %camlight;lighting gouraud
