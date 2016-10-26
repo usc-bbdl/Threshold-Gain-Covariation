@@ -1,8 +1,8 @@
 % The goal of this project is to see how position threshold and velocity threshold change as a function of gamma (both dynamic and static)
 clear all
 clc
-for iii=1:25
-load (['data/sweep',num2str(iii)]);
+for protocolNumber=1:25
+load (['data/sweep',num2str(protocolNumber)]);
 %%
 [ gammaDRange,gammaSRange,positionRange,velocityRange,~ ] = protocol_reader(data(:,2));
 perturbationAmp = 10; %p-p amplitude of perturbations
@@ -96,7 +96,7 @@ close(h)
 % experimentCondition.vel = 100;
 % responsePlotter(dataPlot,experimentCondition,muscleChoice);
 Xc=1;Tc=1;Vc=1;
-subplot(5,5,iii)
+subplot(5,5,protocolNumber)
 XV_RA_forplot=squeeze(reflexAmplitude);%%Reflex amplitude matrix as a function of X and V for plotting
 surf(positionRange,velocityRange,XV_RA_forplot)
 xlabel('Pos.')
