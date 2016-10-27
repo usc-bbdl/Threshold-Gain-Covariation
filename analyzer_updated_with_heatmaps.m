@@ -1,16 +1,30 @@
-% The goal of this project is to see how position threshold and velocity threshold change as a function of gamma (both dynamic and static)
-clear all
+% Objective: The goal of this routine is to quantify the position threshold,
+% velocity threshold, and gain of the stretch reflex loop 
+% as functions of dynamic and static Gamma drive
+% 
+% Data: The data files must be located inside the folder data/
+% The name of the data files must be sweep_i where i is an integer between 
+% 1 and trialNum (defined below)
+%
+%
+clear
 clc
-for protocolNumber=1:1
-load (['data/sweep',num2str(protocolNumber)]);
 %%
-[ gammaDRange,gammaSRange,positionRange,velocityRange,~ ] = protocol_reader(data(:,2));
-perturbationAmp = 10; %p-p amplitude of perturbations
+%Experimental constants
+trialNum = 25;
+perturbationAmp = 10; %p-p amplitude of perturbations (in degrees)
 holdTime = 2 / 2;%hold time is trial length/2
+%%
+%results variables
+reflexAmplitude = cell(trialNum,1);
+muscleLength = cell(trialNum,1);
+gammaTested = cell(trialNum,1);
+%%
+for protocolNumber = 1 : trialNum
+load (['data/sweep_',num2str(protocolNumber)]);
+[ gammaDRange,gammaSRange,positionRange,velocityRange,~ ] = protocol_reader(data(:,2));
 gammaDynamicRange = gammaDRange;
 gammaStaticRange = gammaSRange;
-%velocityRange = [20 100]';
-%positionRange = [-30,0,30]';
 muscleChoice = 1;
 expProtChan = 2;
 if muscleChoice == 1
@@ -23,12 +37,12 @@ else
     error('Muscle choice must be either 1 or 2');
 end
 displayFlag = 0;
-reflexAmplitude = zeros(length(gammaDynamicRange),length(gammaStaticRange),...
+reflexAmplitudeTemp = zeros(length(gammaDynamicRange),length(gammaStaticRange),...
     length(positionRange),length(velocityRange));
-muscleLength = zeros(length(gammaDynamicRange),length(gammaStaticRange),...
+muscleLengthTemp = zeros(length(gammaDynamicRange),length(gammaStaticRange),...
     length(positionRange),length(velocityRange));
 
-totalSteps = length(reflexAmplitude(:));
+totalSteps = length(reflexAmplitudeTemp(:));
 step = 1;
 h = waitbar(0,'Processing');
 for gammaDynamicIndex = 1 : length(gammaDynamicRange)                              % Gamma range for dynamic - 1st dim
@@ -59,9 +73,9 @@ for gammaDynamicIndex = 1 : length(gammaDynamicRange)                           
                     [reflexAmplitudeThisTrial,muscleLengthThisTrial] =...
                         reflexAmplitudeCalculator(dataThisTrial,perturbationParams,muscleChoice);
                     
-                    reflexAmplitude(gammaDynamicIndex,gammaStaticIndex,positionIndex...
+                    reflexAmplitudeTemp(gammaDynamicIndex,gammaStaticIndex,positionIndex...
                         ,velocityIndex) = reflexAmplitudeThisTrial;
-                    muscleLength(gammaDynamicIndex,gammaStaticIndex,positionIndex...
+                    muscleLengthTemp(gammaDynamicIndex,gammaStaticIndex,positionIndex...
                         ,velocityIndex) = muscleLengthThisTrial;
                     if displayFlag == 1
                         disp(['Gd: ',num2str(gammaDynamicRange(gammaDynamicIndex)),', Gs: ',num2str(gammaStaticRange(gammaStaticIndex))...
@@ -76,32 +90,24 @@ for gammaDynamicIndex = 1 : length(gammaDynamicRange)                           
 end
 close(h)
 %% Visualization
-% %display('everything is saved in the file named as reflexAmplitude')
-% close all
-% figure
-% subplot(2,1,1)
-% results_visualization(muscleLength,'gamma_d',3,'vel',5,positionRange,velocityRange) % please use help results_visualization for full details
-% subplot(2,1,2)
-% results_visualization(reflexAmplitude,'gamma_d',3,'vel',5,positionRange,velocityRange) % please use help results_visualization for full details
-% % results_visualization is a function to visualize the results
-% %%
-% %test plot responses at some experimental condition
-% figure
-% dataPlot.expProt = data(:,expProtChan);
-% dataPlot.length = data(:,lengthChannel);
-% dataPlot.force = data(:,forceChannel);
-% experimentCondition.gammaD = 0;
-% experimentCondition.gammaS = 0;
-% experimentCondition.pos = 41;
-% experimentCondition.vel = 100;
-% responsePlotter(dataPlot,experimentCondition,muscleChoice);
 Xc=1;Tc=1;Vc=1;
-%subplot(5,5,protocolNumber)
-XV_RA_forplot=squeeze(reflexAmplitude);%%Reflex amplitude matrix as a function of X and V for plotting
-surf(positionRange,velocityRange,XV_RA_forplot)
+subplot(5,5,protocolNumber)
+XV_RA_forplot=squeeze(reflexAmplitudeTemp);%%Reflex amplitude matrix as a function of X and V for plotting
+surf(velocityRange,positionRange,XV_RA_forplot)
+%%
+%[X,Y] = meshgrid(positionRange,velocityRange);
+surf(velocityRange,positionRange,XV_RA_forplot)
 xlabel('Vel.')
 ylabel('Pos.')
+
 zlabel('Ref. Amp.')
 title(['G_d= ',num2str(gammaDynamicRange),'  G_s= ',num2str(gammaStaticRange)])
 %camlight;lighting gouraud
+muscleLength{protocolNumber} = muscleLengthTemp;
+reflexAmplitude{protocolNumber} = reflexAmplitudeTemp;
+gammaTested{protocolNumber} = [gammaDynamicRange;gammaStaticRange];
 end
+fullSweepResults.muscleLength = muscleLength;
+fullSweepResults.reflexAmplitude = reflexAmplitude;
+fullSweepResults.gammaTested = gammaTested;
+save data/fullSweepResults fullSweepResults
