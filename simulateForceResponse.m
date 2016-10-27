@@ -1,0 +1,21 @@
+function output = simulateForceResponse(amplitude,velocity,trialTime)
+gain = rand*1;
+zeta = 0.98;
+omega = 25;
+delay = 0.04;
+samplingFreq = 1000;
+s = tf('s');
+transientLength = samplingFreq * amplitude/velocity;
+transient = linspace(0,1,transientLength);
+input = ones(trialTime*samplingFreq,1);
+input(1:floor(delay*samplingFreq)) = 0;
+input(floor(delay*samplingFreq) + 1: floor(delay*samplingFreq) + length(transient)) = transient;
+system = gain * omega * omega / (s*s+2*s*zeta*omega+omega*omega);
+time = 0 : 1/samplingFreq:trialTime - 1/samplingFreq;
+inputD = zeros(size(input));
+inputD(2:end) = input(1:end-1);
+inputDiff = (input - inputD) / samplingFreq;
+output1 = (rand * 100) * samplingFreq * lsim(system,inputDiff,time');
+output2 = rand * lsim(system,input,time');
+output = output1 + output2;
+end
