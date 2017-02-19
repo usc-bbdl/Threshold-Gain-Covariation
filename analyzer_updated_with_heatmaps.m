@@ -11,7 +11,9 @@ clear
 clc
 %%
 %Experimental constants
-trialNum = 25;
+saveResults = 0; %set to 1 to save the results
+visualization = 1; % set to 1 to plot the results
+trialNum = 1;
 perturbationAmp = 10; %p-p amplitude of perturbations (in degrees)
 holdTime = 2 / 2;%hold time is trial length/2
 %%
@@ -21,8 +23,9 @@ muscleLength = cell(trialNum,1);
 gammaTested = cell(trialNum,1);
 %%
 for protocolNumber = 1 : trialNum
-load (['data/sweep_',num2str(protocolNumber)]);
-[ gammaDRange,gammaSRange,positionRange,velocityRange,~ ] = protocol_reader(data(:,2));
+%load (['data/sweep_',num2str(protocolNumber)]);
+load ('data/fastProtocol')
+[gammaDRange,gammaSRange,positionRange,velocityRange,~ ] = protocol_reader(data(:,2));
 gammaDynamicRange = gammaDRange;
 gammaStaticRange = gammaSRange;
 muscleChoice = 1;
@@ -89,12 +92,34 @@ for gammaDynamicIndex = 1 : length(gammaDynamicRange)                           
     end
 end
 close(h)
-%% Visualization
-Xc=1;Tc=1;Vc=1;
+muscleLength{protocolNumber} = muscleLengthTemp;
+reflexAmplitude{protocolNumber} = reflexAmplitudeTemp;
+gammaTested{protocolNumber} = [gammaDynamicRange;gammaStaticRange];
+end
+
+fullSweepResults.muscleLength = muscleLength;
+fullSweepResults.reflexAmplitude = reflexAmplitude;
+fullSweepResults.gammaTested = gammaTested;
+%%
+if visualization
+    maxReflex = max(reflexAmplitudeTemp(:));
+    i = 1;
+    for gammaDynamicIndex = 1 : size(reflexAmplitudeTemp,1)
+        for gammaStaticIndex = 1 : size(reflexAmplitudeTemp,2)
+            subplot(size(reflexAmplitudeTemp,1),size(reflexAmplitudeTemp,2),i)
+            reflexTemp = reflexAmplitudeTemp(gammaDynamicIndex,gammaStaticIndex,:,:);
+            reflexTemp = squeeze(reflexTemp);
+            imagesc(reflexTemp,[0,maxReflex])
+            xlabel('velocity')
+            ylabel('position')
+            i = i + 1;
+        end
+    end
+end
+%%
 subplot(5,5,protocolNumber)
 XV_RA_forplot=squeeze(reflexAmplitudeTemp);%%Reflex amplitude matrix as a function of X and V for plotting
 surf(velocityRange,positionRange,XV_RA_forplot)
-%%
 %[X,Y] = meshgrid(positionRange,velocityRange);
 surf(velocityRange,positionRange,XV_RA_forplot)
 xlabel('Vel.')
@@ -103,11 +128,7 @@ ylabel('Pos.')
 zlabel('Ref. Amp.')
 title(['G_d= ',num2str(gammaDynamicRange),'  G_s= ',num2str(gammaStaticRange)])
 %camlight;lighting gouraud
-muscleLength{protocolNumber} = muscleLengthTemp;
-reflexAmplitude{protocolNumber} = reflexAmplitudeTemp;
-gammaTested{protocolNumber} = [gammaDynamicRange;gammaStaticRange];
+
+if saveResults
+    save data/fullSweepResults fullSweepResults
 end
-fullSweepResults.muscleLength = muscleLength;
-fullSweepResults.reflexAmplitude = reflexAmplitude;
-fullSweepResults.gammaTested = gammaTested;
-save data/fullSweepResults fullSweepResults
