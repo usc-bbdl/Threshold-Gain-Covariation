@@ -3,12 +3,15 @@ close all;
 clc;
 load Data\AllData;
 
-%Experimental Condition Matrix Generator
+%Experimental Condition Matrix Generator: These "For loops" generate a
+%matrix that each of its row is a set of experimental condition.
 
-expProtocol = Con_Data(:,2);
-[ gamma_d_1_r,gamma_s_1_r,pos_r,vel_r,number_of_runs ] = protocol_reader( expProtocol );
+expProtocol = Con_Data(:,2);     %Set the second column of Data, equal to expProtocol.
 
-expCondition=zeros(3000,8);
+[ gamma_d_1_r,gamma_s_1_r,pos_r,vel_r,number_of_runs ] = protocol_reader( expProtocol );   %Find a set of values in Data's second column for each of our variables (GammaDynamic, GammaStatic, Position, Velocity).
+
+ExpConditionSize= length(gamma_d_1_r)*length(gamma_s_1_r)*length(pos_r)*length(vel_r);
+expCondition=zeros(ExpConditionSize,8);
 i=0;
        for gammaDynamicIndex = 1 : length(gamma_d_1_r)                              % Gamma range for dynamic - 1st dim
             for gammaStaticIndex = 1 : length(gamma_s_1_r)                           % Gamma range for static - 2nd dim
@@ -30,7 +33,7 @@ i=0;
 
 
 %Indices Matrix Generator
-S= size(expCondition);
+
 
 IndDynamic= length(gamma_d_1_r);
 IndStatic= length(gamma_s_1_r);
@@ -43,19 +46,19 @@ Matrix_5D_E= zeros(IndDynamic,IndStatic,IndPos,IndVel,Rep);
 
 
 
-for a=2:S(1)
-    SpCondition=expCondition(a,:);
-    Indices= experimentalConditionFinder(expProtocol,SpCondition);
+for ConditionRow=2:ExpConditionSize;        %First row is zeros.
+    Condition_des=expCondition(ConditionRow,:);
+    Indices= experimentalConditionFinder(expProtocol,Condition_des);
     In1=Indices(1);
     In2=Indices(2);
-    IntervalMatrix= PerFinder(expProtocol,In1,In2);
+    IntervalMatrix= PerturbationFinder(expProtocol,In1,In2);
     for i=1:IndDynamic;
         for j=1:IndStatic;
             for k=1:IndPos;
                 for l=1:IndVel;
                     for m=1:Rep;
-                        Matrix_5D_B(i,j,k,l,m)=IntervalMatrix(m,1);
-                        Matrix_5D_E(i,j,k,l,m)=IntervalMatrix(m,2);
+                        Matrix_5D_B(i,j,k,l,m)=IntervalMatrix(m,1);     %This Matrix contains all of the staring point indices of a repetionion.
+                        Matrix_5D_E(i,j,k,l,m)=IntervalMatrix(m,2);     %This Matrix contains all of the ending point indices of a repetition.
                     end
                 end
             end

@@ -1,3 +1,5 @@
+%This script is for concatenating all 25 .txt files, into 1 huge .mat file
+%called AllData.mat .
 
 AllData=[];
 for i =1:25
